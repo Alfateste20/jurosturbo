@@ -36,7 +36,8 @@
             }        
         }
 
-        // --- FUNÇÃO DE MÁSCARA MONETÁRIA ---
+        // --- FUNÇÃO DE MÁSCARA MONETÁRIA (NOVA) ---
+        // Garante o formato brasileiro (ponto como milhar, vírgula como decimal)
         function formatCurrency(input) {
             let value = input.value.replace(/\D/g, ''); // Remove tudo que não for dígito
             
@@ -61,10 +62,10 @@
             --color-card-bg: #152540; /* Fundo mais claro para cards/gráfico */            
             --color-text-light: #F0F8FF; /* Azul Claro para textos gerais */            
             --color-grid-lines: rgba(240, 248, 255, 0.1); /* Linhas de grade mais sutis (quase transparentes) */
-            /* Cores usadas no gráfico e corrigidas na lógica Chart.js */            
-            --color-total-line: #8B0000; /* Vermelho-vinho */            
-            --color-investido-line: #000000; /* Preto */            
-            --color-chart-bg: #1A2A47; /* Fundo escuro para o Canvas do gráfico */            
+            /* Novas cores para as linhas do gráfico, inspiradas na referência */            
+            --color-total-line: #8B0000; /* Vermelho-vinho (similar ao "Total em Juros" da imagem) */            
+            --color-investido-line: #000000; /* Preto (similar ao "Valor Investido" da imagem) */            
+            --color-chart-bg: #1A2A47; /* Fundo escuro para o Canvas do gráfico (NOVA COR: Dark Slate Blue) */            
             --color-chart-text: #DDDDDD; /* Cinza claro para os textos internos do gráfico */            
             --color-chart-grid-light: #4A4A4A; /* Linhas de grade mais claras */        
         }
@@ -255,7 +256,7 @@
         // --- FIREBASE IMPORTS ---
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, updateDoc, increment, onSnapshot, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, query, where, addDoc, getDocs, onSnapshot, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- GLOBAL SETUP (MANDATORY) ---
         setLogLevel('Debug');
@@ -280,47 +281,42 @@
                     console.error("Erro na autenticação:", error);
                 }
             }
-            // Chama a lógica do contador APENAS depois que a autenticação estiver estabelecida
+            // Run counter logic after authentication is established
             initializeVisitCounter();
         });
 
 
-        // --- COUNTER LOGIC (PUBLIC DATA - Refatorado para robustez) ---
+        // --- COUNTER LOGIC (PUBLIC DATA) ---
         async function initializeVisitCounter() {
-            const counterPath = `/artifacts/${appId}/public/data/visit_counter`;
-            const docRef = doc(db, counterPath, 'global_count');
-            const displayElement = document.getElementById('visitCountValue');
+            try {
+                // Path para o contador global de visitas (Coleção pública)
+                const counterPath = `/artifacts/${appId}/public/data/visit_counter`;
+                const docRef = doc(db, counterPath, 'global_count');
 
-            // 1. Escuta em tempo real para exibir o valor mais recente
-            onSnapshot(docRef, (docSnap) => {
+                // 1. Tenta carregar o valor atual (com backoff, mas simplificado aqui)
+                const docSnap = await getDoc(docRef);
+
                 let currentCount = 0;
+                let newCount = 1;
+
                 if (docSnap.exists()) {
                     currentCount = docSnap.data().count || 0;
+                    newCount = currentCount + 1;
                 }
-                displayElement.textContent = currentCount.toLocaleString('pt-BR');
-            }, (error) => {
-                console.error("Erro ao ler o contador em tempo real:", error);
-                displayElement.textContent = 'Indisponível';
-            });
-            
-            // 2. Tenta incrementar atomicamente (garante que cada acesso conta)
-            try {
-                // Tenta atualizar o contador existente
-                await updateDoc(docRef, { 
+                
+                // 2. Atualiza ou cria o documento com o novo valor
+                await setDoc(docRef, { 
                     count: increment(1), 
                     lastVisit: new Date().toISOString() 
-                });
+                }, { merge: true });
+
+                // 3. Exibe o novo valor (usamos o valor incrementado em memória para exibição imediata)
+                document.getElementById('visitCountValue').textContent = newCount.toLocaleString('pt-BR');
+
             } catch (error) {
-                // Se o documento não existir, ele lança um erro 'not-found'. Neste caso, criamos.
-                if (error.code === 'not-found') {
-                     await setDoc(docRef, { 
-                        count: 1, 
-                        lastVisit: new Date().toISOString() 
-                    }, { merge: true });
-                } else {
-                    // Loga outros erros (e.g., problemas de permissão)
-                    console.error("Erro ao incrementar o contador:", error);
-                }
+                console.error("Erro ao atualizar o contador de visitas:", error);
+                // Fallback: Exibir um indicador de erro/falha
+                document.getElementById('visitCountValue').textContent = 'Erro';
             }
         }
         
@@ -332,10 +328,10 @@
         
         const formatarValor = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-        // Desmascara o valor para cálculo (remove . e troca , por .)
+        // NOVA FUNÇÃO: Desmascara o valor para cálculo (remove . e troca , por .)
         const parseCurrency = (value) => {
             if (!value) return 0;
-            // 1. Remove pontos de milhar
+            // 1. Remove pontos de milhar (apenas dígitos)
             let cleanValue = value.replace(/\./g, '');
             // 2. Troca a vírgula decimal pelo ponto decimal padrão do JS/Float
             cleanValue = cleanValue.replace(',', '.');
@@ -474,27 +470,27 @@
                                 }                            
                             }                        
                         }                    
-                    },           
+                    },                     
                     plugins: {                        
                         legend: {                             
-                            position: 'top', 
-                            align: 'center', 
+                            position: 'top', // Posição superior                            
+                            align: 'center', // Alinhamento centralizado                            
                             labels: {                                 
-                                color: "white", 
+                                color: "white", /* Cor do texto da legenda */                                 
                                 font: { size: 14, weight: 'bold' },                                 
-                                boxWidth: 15, 
-                                padding: 20 
+                                boxWidth: 15, // Largura do quadrado de cor                                 
+                                padding: 20 // Espaçamento                            
                             }                         
                         },                        
                         title: {                            
                             display: true,                            
-                            text: 'Gráfico:', 
-                            color: "#fff", 
+                            text: 'Gráfico:', // Título do gráfico                            
+                            color: "#fff", // Cor do título (vermelho-vinho)                            
                             font: { size: 20, weight: 'bold' },                            
                             padding: { top: 10, bottom: 20 }                        
                         },                        
                         tooltip: {                            
-                            backgroundColor: "#000", 
+                            backgroundColor: "#000", // Fundo mais escuro para o tooltip                            
                             titleColor: "#fff",                            
                             bodyColor: 'var(--color-chart-text)',                            
                             borderColor: 'var(--color-chart-grid-light)',                            
