@@ -35,6 +35,22 @@
                 }            
             }        
         }
+
+        // --- FUNÇÃO DE MÁSCARA MONETÁRIA (NOVA) ---
+        // Garante o formato brasileiro (ponto como milhar, vírgula como decimal)
+        function formatCurrency(input) {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+            
+            // Converte para centavos (ex: 12345 -> 123.45)
+            value = (value / 100).toFixed(2).toString();
+            
+            // Adiciona ponto como separador de milhar (ex: 123456.78 -> 123.456.78)
+            value = value.replace('.', ','); // Troca ponto decimal por vírgula
+            value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); // Adiciona ponto de milhar
+
+            input.value = value;
+        }
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>        
@@ -127,12 +143,14 @@
             <form id="calcForm" class="grid grid-cols-1 md:grid-cols-3 gap-6">                
                 <div class="col-span-1">                    
                     <label for="patrimonio" class="block text-sm font-medium text-secondary-light mb-1">Patrimônio atual (R$)</label>                    
-                    <input type="number" id="patrimonio" step="0.01" required placeholder="0,00"                           
+                    <!-- Alterado para type="text" e adicionado oninput para formatar -->
+                    <input type="text" id="patrimonio" required placeholder="0,00" oninput="formatCurrency(this)"
                         class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                
                 </div>                
                 <div class="col-span-1">                    
                     <label for="aporte" class="block text-sm font-medium text-secondary-light mb-1">Aporte mensal (R$)</label>                    
-                    <input type="number" id="aporte" step="0.01" required placeholder="0,00"                           
+                    <!-- Alterado para type="text" e adicionado oninput para formatar -->
+                    <input type="text" id="aporte" required placeholder="0,00" oninput="formatCurrency(this)"
                         class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                
                 </div>                
                 <div class="col-span-1">                    
@@ -309,12 +327,24 @@
         let chart;
         
         const formatarValor = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        // NOVA FUNÇÃO: Desmascara o valor para cálculo (remove . e troca , por .)
+        const parseCurrency = (value) => {
+            if (!value) return 0;
+            // 1. Remove pontos de milhar (apenas dígitos)
+            let cleanValue = value.replace(/\./g, '');
+            // 2. Troca a vírgula decimal pelo ponto decimal padrão do JS/Float
+            cleanValue = cleanValue.replace(',', '.');
+            return parseFloat(cleanValue) || 0;
+        };
         
         form.addEventListener("submit", function(e) {            
             e.preventDefault();
             
-            const patrimonio = parseFloat(document.getElementById("patrimonio").value) || 0;            
-            const aporte = parseFloat(document.getElementById("aporte").value) || 0;            
+            // Usando a nova função para pegar os valores desmascarados
+            const patrimonio = parseCurrency(document.getElementById("patrimonio").value);           
+            const aporte = parseCurrency(document.getElementById("aporte").value);
+            
             const taxaInformada = parseFloat(document.getElementById("taxa").value) / 100 || 0;            
             const tipoTaxa = document.getElementById("tipoTaxa").value;            
             let periodo = parseInt(document.getElementById("periodo").value) || 0;            
@@ -446,9 +476,9 @@
                             position: 'top', // Posição superior                            
                             align: 'center', // Alinhamento centralizado                            
                             labels: {                                 
-                                color: "white", /* Cor do texto da legenda */                                
-                                font: { size: 14, weight: 'bold' },                                
-                                boxWidth: 15, // Largura do quadrado de cor                                
+                                color: "white", /* Cor do texto da legenda */                                 
+                                font: { size: 14, weight: 'bold' },                                 
+                                boxWidth: 15, // Largura do quadrado de cor                                 
                                 padding: 20 // Espaçamento                            
                             }                         
                         },                        
