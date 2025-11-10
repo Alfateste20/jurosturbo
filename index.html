@@ -16,11 +16,26 @@
     <meta property="og:description" content="Calcule juros compostos de forma simples e rápida com a Juros Turbo. Simule investimentos e descubra o poder dos juros sobre juros.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jurosturbo.pages.dev/">
-    <!-- <meta property="og:image" content="https://www.jotform.com/pt/answers/4851516-como-adicionar-meu-logo-na-thumbnail-de-compartilhamento-do-meu-formulario-classico"> -->
+    <!-- <meta property="og:image" content="https://www.jotform.com/pt/answers/4851516-como-adicionar-meu-logo-na-thumbnail-de-compartilhamento-do-meu-formulario-clássico"> -->
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975866161285587" 
     crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>        
+        // CORREÇÃO DE ERRO: O tailwind.config deve ser definido imediatamente após o script CDN do Tailwind.
+        tailwind.config = {            
+            theme: {                
+                extend: {                    
+                    colors: {                        
+                        'dark-bg': '#0A192F',                        
+                        'primary-blue': '#1E90FF',                        
+                        'secondary-light': '#E0E7FF',                        
+                        'card-bg': '#152540',                    
+                    }                
+                }            
+            }        
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>        
         /* Variáveis de Cores (Azul Financeiro) */        
@@ -65,18 +80,6 @@
         }    
     </style>    
     <script>        
-        tailwind.config = {            
-            theme: {                
-                extend: {                    
-                    colors: {                        
-                        'dark-bg': '#0A192F',                        
-                        'primary-blue': '#1E90FF',                        
-                        'secondary-light': '#E0E7FF',                        
-                        'card-bg': '#152540',                    
-                    }                
-                }            
-            }        
-        }                
         // Configurações globais do Chart.js para o tema escuro (ajustadas para a referência)        
         Chart.defaults.color = 'var(--color-chart-text)'; // Cor padrão do texto        
         Chart.defaults.borderColor = 'var(--color-chart-grid-light)'; // Cor padrão das bordas/grades        
@@ -85,12 +88,21 @@
     </script>
 </head>
 <body>
-    <header class="p-6 bg-dark-bg border-b border-card-bg shadow-lg">        
+    <header class="p-4 bg-dark-bg border-b border-card-bg shadow-lg">        
         <div class="max-w-6xl mx-auto flex justify-between items-center">            
             <a href="#" class="text-2xl font-bold text-primary-blue">                
                 Juros <span class="text-white">Turbo</span>            
             </a>            
-            <nav>                
+            
+            <div id="visitCounter" class="flex items-center space-x-2 text-sm text-secondary-light/80 bg-card-bg px-3 py-1 rounded-full border border-primary-blue/30 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-blue" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                </svg>
+                <span class="font-medium">Visitas:</span>
+                <span id="visitCountValue" class="font-bold text-white">...</span>
+            </div>
+            
+            <nav class="hidden sm:block">                
                 <a href="#tabelaRendimentoHeader" class="text-secondary-light hover:text-primary-blue transition duration-300 mx-3">Detalhes</a>            
             </nav>        
         </div>    
@@ -222,7 +234,75 @@
         <p>&copy; 2025 Juros Turbo. Todos os direitos reservados. | Ferramenta Educacional.</p>    
     </footer>
     
-    <script>        
+    <script type="module">        
+        // --- FIREBASE IMPORTS ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, query, where, addDoc, getDocs, onSnapshot, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- GLOBAL SETUP (MANDATORY) ---
+        setLogLevel('Debug');
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // --- FIREBASE AUTHENTICATION ---
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch (error) {
+                    console.error("Erro na autenticação:", error);
+                }
+            }
+            // Run counter logic after authentication is established
+            initializeVisitCounter();
+        });
+
+
+        // --- COUNTER LOGIC (PUBLIC DATA) ---
+        async function initializeVisitCounter() {
+            try {
+                // Path para o contador global de visitas (Coleção pública)
+                const counterPath = `/artifacts/${appId}/public/data/visit_counter`;
+                const docRef = doc(db, counterPath, 'global_count');
+
+                // 1. Tenta carregar o valor atual (com backoff, mas simplificado aqui)
+                const docSnap = await getDoc(docRef);
+
+                let currentCount = 0;
+                let newCount = 1;
+
+                if (docSnap.exists()) {
+                    currentCount = docSnap.data().count || 0;
+                    newCount = currentCount + 1;
+                }
+                
+                // 2. Atualiza ou cria o documento com o novo valor
+                await setDoc(docRef, { 
+                    count: increment(1), 
+                    lastVisit: new Date().toISOString() 
+                }, { merge: true });
+
+                // 3. Exibe o novo valor (usamos o valor incrementado em memória para exibição imediata)
+                document.getElementById('visitCountValue').textContent = newCount.toLocaleString('pt-BR');
+
+            } catch (error) {
+                console.error("Erro ao atualizar o contador de visitas:", error);
+                // Fallback: Exibir um indicador de erro/falha
+                document.getElementById('visitCountValue').textContent = 'Erro';
+            }
+        }
+        
+        // --- CALCULATOR LOGIC ---
         const form = document.getElementById("calcForm");        
         const ctx = document.getElementById("grafico");        
         const resultadosDiv = document.getElementById("resultados");        
@@ -360,7 +440,7 @@
                                 }                            
                             }                        
                         }                    
-                    },                    
+                    },                     
                     plugins: {                        
                         legend: {                             
                             position: 'top', // Posição superior                            
