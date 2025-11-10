@@ -275,77 +275,77 @@
                 type: "line",
                 data: {
                     labels: meses.map(m => `Mês ${m}`),
-                    datasets: [
-                        {
-                            label: "Patrimônio Total", // Mudança de label para simplificar
-                            data: valoresTotal,
-                            borderColor: "var(--color-total-line)", /* Vermelho-vinho */
-                            backgroundColor: "#00ffff", /* Sem preenchimento */
-                            borderWidth: 2, /* Espessura da linha */
-                            tension: 0.1, /* Menos curvatura para parecer mais linear */
-                            pointRadius: 4, /* Círculos nos pontos de dados */
-                            pointBackgroundColor: "00ffff", /* Cor do preenchimento do círculo */
-                            pointBorderColor: "var(--color-total-line)", /* Cor da borda do círculo */
-                            pointHoverRadius: 6,
-                            fill: false
-                        },
-                        {
-                            label: "Valor Investido", // Mudança de label para simplificar
-                            data: valoresInvestido,
-                            borderColor: "var(--color-investido-line)", /* Preto */
-                            backgroundColor: "#fff", /* Sem preenchimento */
-                            borderWidth: 2, /* Espessura da linha */
-                            tension: 0.1, /* Menos curvatura */
-                            pointRadius: 4, /* Círculos nos pontos de dados */
-                            pointBackgroundColor: "#00ffff", /* Cor do preenchimento do círculo */
-                            pointBorderColor: "var(--color-investido-line)", /* Cor da borda do círculo */
-                            pointHoverRadius: 6,
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    aspectRatio: 2, // Manter proporção similar ao exemplo
-                    scales: {
-                        x: {
-                            title: { display: false }, // Ocultar título do eixo X
-                            grid: {
-                                color: "#fff", /* Linhas de grade mais claras */
-                                drawOnChartArea: true, /* Desenhar na área do gráfico */
-                                drawTicks: false,
-                                borderDash: [2, 2] /* Linhas tracejadas sutis */
-                            },
-                            ticks: {
-                                color: "white", /* Cor do texto dos ticks */
-                                font: { size: 16 },
-                                maxRotation: 0,
-                                minRotation: 0,
-                                autoSkipPadding: 20
-                            }
-                        },
-                        y: {
-                            title: { display: false }, // Ocultar título do eixo Y
-                            grid: {
-                                color: "var(--color-chart-grid-light)", /* Linhas de grade mais claras */
-                                drawOnChartArea: true,
-                                drawTicks: false,
-                                borderDash: [2, 2] /* Linhas tracejadas sutis */
-                            },
-                            ticks: {
-                                color: "var(--color-chart-text)", /* Cor do texto dos ticks */
-                                font: { size: 12 },
-                                callback: function(value) {
-                                    // Formato de K para valores grandes, similar ao exemplo
-                                    if (value >= 1000) {
-                                        return (value / 1000).toLocaleString('pt-BR') + 'k';
-                                    }
-                                    return value.toLocaleString('pt-BR');
-                                }
-                            }
-                        }
-                    },
+datasets: [                        
+                        {                            
+                            label: "Patrimônio Total", // Mudança de label para simplificar                            
+                            data: valoresTotal,                            
+                            borderColor: "red", /* Vermelho-vinho */                            
+                            backgroundColor: "red", /* Sem preenchimento */                            
+                            borderWidth: 2, /* Espessura da linha */                            
+                            tension: 0.1, /* Menos curvatura para parecer mais linear */                            
+                            pointRadius: 4, /* Círculos nos pontos de dados */                            
+                            pointBackgroundColor: "red", /* Cor do preenchimento do círculo */                            
+                            pointBorderColor: "red", /* Cor da borda do círculo */                            
+                            pointHoverRadius: 6,                            
+                            fill: false                        
+                        },                        
+                        {                            
+                            label: "Valor Investido", // Mudança de label para simplificar                            
+                            data: valoresInvestido,                            
+                            borderColor: "#00ffff", /* Preto */                            
+                            backgroundColor: "#00ffff", /* Sem preenchimento */                            
+                            borderWidth: 2, /* Espessura da linha */                            
+                            tension: 0.1, /* Menos curvatura */                            
+                            pointRadius: 4, /* Círculos nos pontos de dados */                            
+                            pointBackgroundColor: "#00ffff", /* Cor do preenchimento do círculo */                            
+                            pointBorderColor: "#00ffff", /* Cor da borda do círculo */                            
+                            pointHoverRadius: 6,                            
+                            fill: false                        
+                        }                    
+                    ]                
+                },                
+                options: {                    
+                    responsive: true,                    
+                    maintainAspectRatio: false,                    
+                    aspectRatio: 2, // Manter proporção similar ao exemplo                    
+                    scales: {                        
+                        x: {                            
+                            title: { display: true }, // Ocultar título do eixo X                            
+                            grid: {                                
+                                color: "white", /* Linhas de grade mais claras */                                
+                                drawOnChartArea: true, /* Desenhar na área do gráfico */                                
+                                drawTicks: false,                                
+                                borderDash: [2, 2] /* Linhas tracejadas sutis */                            
+                            },                            
+                            ticks: {                                
+                                color: "white", /* Cor do texto dos ticks */                                
+                                font: { size: 16 },                                
+                                maxRotation: 0,                                
+                                minRotation: 0,                                
+                                autoSkipPadding: 20                            
+                            }                        
+                        },                        
+                        y: {                            
+                            title: { display: false }, // Ocultar título do eixo Y                            
+                            grid: {                                
+                                color: "white", /* Linhas de grade mais claras */                                
+                                drawOnChartArea: true,                                
+                                drawTicks: false,                                
+                                borderDash: [2, 2] /* Linhas tracejadas sutis */                            
+                            },                            
+                            ticks: {                                
+                                color: "white", /* Cor do texto dos ticks */                                
+                                font: { size: 12 },                                
+                                callback: function(value) {                                    
+                                    // Formato de K para valores grandes, similar ao exemplo                                    
+                                    if (value >= 1000) {                                        
+                                        return (value / 1000).toLocaleString('pt-BR') + 'k';                                    
+                                    }                                    
+                                    return value.toLocaleString('pt-BR');                                
+                                }                            
+                            }                        
+                        }                    
+                    },                  
                     plugins: {
                         legend: { 
                             position: 'top', // Posição superior
@@ -394,4 +394,5 @@
 </body>
 
 </html>
+
 
