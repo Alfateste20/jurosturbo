@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- Código base do AdSense (Já estava aqui e permanece) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975866161285587"
      crossorigin="anonymous"></script>
 
@@ -8,14 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="3MUvnxs2iBBVbiBakxoAhnqv8k8FFOeFJ_saz6m8j4" />
     
+    <!-- TÍTULO OTIMIZADO PARA SEO: Contém as palavras-chave principais -->
     <title>Calculadora de Juros Compostos Online Grátis | Juros Turbo</title>        
-
+    
+    <!-- META DESCRIPTION OTIMIZADA PARA SEO: Descrição persuasiva -->
     <meta name="description" content="Calcule juros compostos de forma simples e rápida com a Juros Turbo. Simule investimentos e descubra o poder dos juros sobre juros. Comece a planejar seu futuro financeiro!">        
-
+    
+    <!-- OPEN GRAPH TAGS (Para compartilhamento em Redes Sociais) -->
     <meta property="og:title" content="Calculadora de Juros Compostos Online Grátis | Juros Turbo">    
     <meta property="og:description" content="Calcule juros compostos de forma simples e rápida com a Juros Turbo. Simule investimentos e descubra o poder dos juros sobre juros.">    
     <meta property="og:type" content="website">    
     <meta property="og:url" content="https://jurosturbo.pages.dev/">    
+    
+    <!-- Fontes e Estilos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -57,9 +63,9 @@
             --color-card-bg: #152540; /* Fundo mais claro para cards/gráfico */                        
             --color-text-light: #F0F8FF; /* Azul Claro para textos gerais */                        
             --color-grid-lines: rgba(240, 248, 255, 0.1); /* Linhas de grade mais sutis (quase transparentes) */            
-            /* Cores usadas no gráfico e corrigidas na lógica Chart.js */                        
+            /* Cores usadas no gráfico */                        
             --color-total-line: #ef0202; /* Vermelho-vinho */                        
-            --color-investido-line: #00fffb; /* Cinza claro para ser visível no fundo escuro (CORRIGIDO) */                        
+            --color-investido-line: #00fffb; /* Ciano claro */                        
             --color-chart-bg: #152540; /* Fundo escuro para o Canvas do gráfico */                        
             --color-chart-text: #DDDDDD; /* Cinza claro para os textos internos do gráfico */                        
             --color-chart-grid-light: #4A4A4A; /* Linhas de grade mais claras */                
@@ -106,6 +112,7 @@
         </div>        
     </header>        
     <div class="text-center py-16 bg-card-bg">                
+        <!-- H1 OTIMIZADO: Contém a palavra-chave principal "Juros Compostos" -->
         <h1 class="text-5xl font-extrabold text-white mb-4 leading-tight">                        
             Descubra o Poder dos <span class="text-primary-blue">Juros Compostos</span>                
         </h1>                
@@ -121,11 +128,13 @@
             <form id="calcForm" class="grid grid-cols-1 md:grid-cols-3 gap-6">                                
                 <div class="col-span-1">                                        
                     <label for="patrimonio" class="block text-sm font-medium text-secondary-light mb-1">Patrimônio atual (R$)</label>                                        
+                    <!-- Alterado para type="text" e adicionado oninput para formatar -->
                     <input type="text" id="patrimonio" required placeholder="0,00" oninput="formatCurrency(this)"                        
                         class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                                
                 </div>                                
                 <div class="col-span-1">                                        
                     <label for="aporte" class="block text-sm font-medium text-secondary-light mb-1">Aporte mensal (R$)</label>                                        
+                    <!-- Alterado para type="text" e adicionado oninput para formatar -->
                     <input type="text" id="aporte" required placeholder="0,00" oninput="formatCurrency(this)"                        
                         class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                                
                 </div>                                
@@ -158,6 +167,8 @@
                 </button>                        
             </form>                
         </div>                
+        
+        <!-- O bloco de anúncio simulado foi removido daqui para evitar a violação -->
         
         <div id="resultados" class="hidden">                                    
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">                                
@@ -199,6 +210,7 @@
             </div>                
         </div>
 
+        <!-- BLOCO DE TEXTO OTIMIZADO PARA SEO: Aumenta a relevância textual para o Google -->        
         <section class="mt-12 p-8 bg-card-bg rounded-xl shadow-2xl border border-primary-blue/50">            
             <h2 class="text-2xl font-bold mb-4 text-primary-blue">                
                 O Poder Mágico dos Juros Compostos no seu Investimento            
@@ -210,20 +222,23 @@
                 Utilize nossa **calculadora de juros compostos** para planejar seu futuro. Insira seu aporte inicial, a taxa de juros e o período desejado. O **Juros Turbo** transformará números complexos em uma visualização clara através de gráficos e tabelas detalhadas, mostrando exatamente o quanto seu dinheiro pode crescer. Comece a simular hoje e veja a aceleração do seu patrimônio!            
             </p>        
         </section>            
-        
-        <div class="mt-8 mb-8 text-center bg-card-bg p-4 rounded-xl shadow-lg border border-primary-blue/50">
-            <p class="text-secondary-light/80 mb-2">Anúncio</p>
+
+        <!-- Bloco de Anúncio AdSense Inserido em um local seguro (após o conteúdo principal) -->
+        <div class="mt-8 mb-8 text-center bg-card-bg p-4 rounded-xl shadow-lg border border-gray-700">
+            <p class="text-secondary-light/80 mb-3 text-sm">Anúncio Display Responsivo</p>
+            <!-- anunciosjt - SEU CÓDIGO REAL -->
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="ca-pub-YOUR_ADSENSE_CLIENT_ID"
-                 data-ad-slot="YOUR_ADSENSE_SLOT_ID"
+                 data-ad-client="ca-pub-5975866161285587"
+                 data-ad-slot="5299659211"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
             <script>
                  (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
         </div>
-        </main>        
+        
+    </main>        
     <footer class="p-6 bg-dark-bg border-t border-card-bg text-center text-sm text-secondary-light">                
         <p>&copy; 2025 Juros Turbo. Todos os direitos reservados. | Ferramenta Educacional.</p>        
     </footer>        
@@ -245,7 +260,7 @@
             return parseFloat(cleanValue) || 0;        
         };                
         
-        // --- CALCULATOR LOGIC (AGORA PURAMENTE ESTÁTICA) ---        
+        // --- CALCULATOR LOGIC ---        
         form.addEventListener("submit", function(e) {             
             e.preventDefault();                        
             // Usando a nova função para pegar os valores desmascarados            
@@ -419,4 +434,3 @@
     </script>
 </body>
 </html>
-```http://googleusercontent.com/image_generation_content/0
