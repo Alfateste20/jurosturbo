@@ -3,450 +3,420 @@
 <head>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975866161285587"
      crossorigin="anonymous"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="3MUvnxs2iBBVbiBakxoAhnqv8k8FFOeFJ_saz6m8j4" />
+    
+    <title>Calculadora de Juros Compostos Online Grátis | Juros Turbo</title>        
 
-    <!-- TÍTULO OTIMIZADO PARA SEO: Contém as palavras-chave principais -->
-    <title>Calculadora de Juros Compostos Online Grátis | Juros Turbo</title>
-    
-    <!-- META DESCRIPTION OTIMIZADA PARA SEO: Descrição persuasiva -->
-    <meta name="description" content="Calcule juros compostos de forma simples e rápida com a Juros Turbo. Simule investimentos e descubra o poder dos juros sobre juros. Comece a planejar seu futuro financeiro!">
-    
-    <!-- OPEN GRAPH TAGS (Para compartilhamento em Redes Sociais) -->
-    <meta property="og:title" content="Calculadora de Juros Compostos Online Grátis | Juros Turbo">
-    <meta property="og:description" content="Calcule juros compostos de forma simples e rápida com a Juros Turbo. Simule investimentos e descubra o poder dos juros sobre juros.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://jurosturbo.pages.dev/">
-    <!-- <meta property="og:image" content="https://www.jotform.com/pt/answers/4851516-como-adicionar-meu-logo-na-thumbnail-de-compartilhamento-do-meu-formulario-clássico"> -->
+    <meta name="description" content="Calcule juros compostos de forma simples e rápida com a Juros Turbo. Simule investimentos e descubra o poder dos juros sobre juros. Comece a planejar seu futuro financeiro!">        
 
-    <!-- ADVERTÊNCIA: Removida tag AdSense, pois pode ser bloqueada e não é essencial para a funcionalidade -->
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>        
-        // Configuração do Tailwind para o tema
-        tailwind.config = {            
-            theme: {                
-                extend: {                    
-                    colors: {                        
-                        'dark-bg': '#0A192F',                        
-                        'primary-blue': '#1E90FF',                        
-                        'secondary-light': '#E0E7FF',                        
-                        'card-bg': '#152540',                    
-                    }                
-                }            
-            }        
+    <meta property="og:title" content="Calculadora de Juros Compostos Online Grátis | Juros Turbo">    
+    <meta property="og:description" content="Calcule juros compostos de forma simples e rápida com a Juros Turbo. Simule investimentos e descubra o poder dos juros sobre juros.">    
+    <meta property="og:type" content="website">    
+    <meta property="og:url" content="https://jurosturbo.pages.dev/">    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        
+    <script src="https://cdn.tailwindcss.com"></script>    
+    <script>                
+        // Configuração do Tailwind para o tema        
+        tailwind.config = {                        
+            theme: {                                
+                extend: {                                        
+                    colors: {                                                
+                        'dark-bg': '#0A192F',                                                
+                        'primary-blue': '#1E90FF',                                                
+                        'secondary-light': '#E0E7FF',                                                
+                        'card-bg': '#152540',                                        
+                    }                                
+                }                        
+            }                
         }
 
-        // --- FUNÇÃO DE MÁSCARA MONETÁRIA ---
-        function formatCurrency(input) {
-            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for dígito
-            
-            // Converte para centavos (ex: 12345 -> 123.45)
-            value = (value / 100).toFixed(2).toString();
-            
-            // Adiciona ponto como separador de milhar (ex: 123456.78 -> 123.456.78)
-            value = value.replace('.', ','); // Troca ponto decimal por vírgula
+        // --- FUNÇÃO DE MÁSCARA MONETÁRIA ---        
+        function formatCurrency(input) {            
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for dígito                        
+            // Converte para centavos (ex: 12345 -> 123.45)            
+            value = (value / 100).toFixed(2).toString();                        
+            // Adiciona ponto como separador de milhar (ex: 123456.78 -> 123.456.78)            
+            value = value.replace('.', ','); // Troca ponto decimal por vírgula            
             value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); // Adiciona ponto de milhar
-
-            input.value = value;
+            input.value = value;        
         }
-
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>        
-        /* Variáveis de Cores (Azul Financeiro) */        
-        :root {            
-            --color-dark-bg: #0A192F;            
-            --color-primary: #1E90FF; /* Azul Principal */            
-            --color-secondary: #E0E7FF;            
-            --color-card-bg: #152540; /* Fundo mais claro para cards/gráfico */            
-            --color-text-light: #F0F8FF; /* Azul Claro para textos gerais */            
-            --color-grid-lines: rgba(240, 248, 255, 0.1); /* Linhas de grade mais sutis (quase transparentes) */
-            /* Cores usadas no gráfico e corrigidas na lógica Chart.js */            
-            --color-total-line: #ef0202; /* Vermelho-vinho */            
-            --color-investido-line: #00fffb; /* Cinza claro para ser visível no fundo escuro (CORRIGIDO) */            
-            --color-chart-bg: #152540; /* Fundo escuro para o Canvas do gráfico */            
-            --color-chart-text: #DDDDDD; /* Cinza claro para os textos internos do gráfico */            
-            --color-chart-grid-light: #4A4A4A; /* Linhas de grade mais claras */        
-        }
-        
-        body {            
-            font-family: 'Poppins', sans-serif;            
-            background-color: var(--color-dark-bg);            
-            color: white;        
-        }
-        
-        #grafico {            
-            background: var(--color-chart-bg); /* Fundo do gráfico conforme a referência */            
-            border-radius: 12px;            
-            padding: 1.5rem;        
-        }
-        
-        .chartjs-render-monitor {            
-            color: var(--color-chart-text); /* Cor do texto padrão para o gráfico */        
-        }
-        
-        ::-webkit-scrollbar {            
-            width: 8px;        
+    </script>    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>    
+    <style>                
+        /* Variáveis de Cores (Azul Financeiro) */                
+        :root {                        
+            --color-dark-bg: #0A192F;                        
+            --color-primary: #1E90FF; /* Azul Principal */                        
+            --color-secondary: #E0E7FF;                        
+            --color-card-bg: #152540; /* Fundo mais claro para cards/gráfico */                        
+            --color-text-light: #F0F8FF; /* Azul Claro para textos gerais */                        
+            --color-grid-lines: rgba(240, 248, 255, 0.1); /* Linhas de grade mais sutis (quase transparentes) */            
+            /* Cores usadas no gráfico e corrigidas na lógica Chart.js */                        
+            --color-total-line: #ef0202; /* Vermelho-vinho */                        
+            --color-investido-line: #00fffb; /* Cinza claro para ser visível no fundo escuro (CORRIGIDO) */                        
+            --color-chart-bg: #152540; /* Fundo escuro para o Canvas do gráfico */                        
+            --color-chart-text: #DDDDDD; /* Cinza claro para os textos internos do gráfico */                        
+            --color-chart-grid-light: #4A4A4A; /* Linhas de grade mais claras */                
+        }                
+        body {                        
+            font-family: 'Poppins', sans-serif;                        
+            background-color: var(--color-dark-bg);                        
+            color: white;                
+        }                
+        #grafico {                        
+            background: var(--color-chart-bg); /* Fundo do gráfico conforme a referência */                        
+            border-radius: 12px;                        
+            padding: 1.5rem;                
+        }                
+        .chartjs-render-monitor {                        
+            color: var(--color-chart-text); /* Cor do texto padrão para o gráfico */                
+        }                
+        ::-webkit-scrollbar {                        
+            width: 8px;                
+        }                        
+        ::-webkit-scrollbar-thumb {                        
+            background: var(--color-primary);                        
+            border-radius: 10px;                
         }        
-        
-        ::-webkit-scrollbar-thumb {            
-            background: var(--color-primary);            
-            border-radius: 10px;        
-        }    
-    </style>    
-    <script>        
-        // Configurações globais do Chart.js para o tema escuro (ajustadas para a referência)        
-        Chart.defaults.color = 'var(--color-chart-text)'; // Cor padrão do texto        
-        Chart.defaults.borderColor = 'var(--color-chart-grid-light)'; // Cor padrão das bordas/grades        
-        Chart.defaults.font.family = 'Poppins, sans-serif'; // Fonte padrão        
-        Chart.defaults.font.size = 13; // Tamanho de fonte padrão    
+    </style>        
+    <script>                
+        // Configurações globais do Chart.js para o tema escuro (ajustadas para a referência)                
+        Chart.defaults.color = 'var(--color-chart-text)'; // Cor padrão do texto                
+        Chart.defaults.borderColor = 'var(--color-chart-grid-light)'; // Cor padrão das bordas/grades                
+        Chart.defaults.font.family = 'Poppins, sans-serif'; // Fonte padrão                
+        Chart.defaults.font.size = 13; // Tamanho de fonte padrão        
     </script>
 </head>
 <body>
-    <header class="p-4 bg-dark-bg border-b border-card-bg shadow-lg">        
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center">            
-            <a href="#" class="text-2xl font-bold text-primary-blue mb-4 sm:mb-0">                
-                Juros <span class="text-white">Turbo</span>            
-            </a>            
-        
-
+    <header class="p-4 bg-dark-bg border-b border-card-bg shadow-lg">                
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center">                        
+            <a href="#" class="text-2xl font-bold text-primary-blue mb-4 sm:mb-0">                                
+                Juros <span class="text-white">Turbo</span>                        
+            </a>                    
             
-            <nav class="hidden sm:block">                
-                <a href="#tabelaRendimentoHeader" class="text-secondary-light hover:text-primary-blue transition duration-300 mx-3">Detalhes</a>            
-            </nav>        
-        </div>    
-    </header>
-    
-    <div class="text-center py-16 bg-card-bg">        
-        <!-- H1 OTIMIZADO: Contém a palavra-chave principal "Juros Compostos" -->
-        <h1 class="text-5xl font-extrabold text-white mb-4 leading-tight">            
-            Descubra o Poder dos <span class="text-primary-blue">Juros Compostos</span>        
-        </h1>        
-        <p class="text-xl text-secondary-light max-w-2xl mx-auto">            
-            Veja a mágica acontecer: o seu capital trabalhando por você.        
-        </p>    
-    </div>
-    
-    <main class="max-w-6xl mx-auto p-4 md:p-8 mt-[-30px] relative z-10">                
-        <div class="bg-card-bg p-6 md:p-10 rounded-xl shadow-2xl border border-primary-blue/50 mb-8">            
-            <h2 class="text-3xl font-bold mb-6 text-primary-blue border-b border-card-bg pb-3">                
-                Simulação de Investimento            
-            </h2>
-            
-            <form id="calcForm" class="grid grid-cols-1 md:grid-cols-3 gap-6">                
-                <div class="col-span-1">                    
-                    <label for="patrimonio" class="block text-sm font-medium text-secondary-light mb-1">Patrimônio atual (R$)</label>                    
-                    <!-- Alterado para type="text" e adicionado oninput para formatar -->
-                    <input type="text" id="patrimonio" required placeholder="0,00" oninput="formatCurrency(this)"
-                        class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                
-                </div>                
-                <div class="col-span-1">                    
-                    <label for="aporte" class="block text-sm font-medium text-secondary-light mb-1">Aporte mensal (R$)</label>                    
-                    <!-- Alterado para type="text" e adicionado oninput para formatar -->
-                    <input type="text" id="aporte" required placeholder="0,00" oninput="formatCurrency(this)"
-                        class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                
-                </div>                
-                <div class="col-span-1">                    
-                    <label for="taxa" class="block text-sm font-medium text-secondary-light mb-1">Taxa de juros (%)</label>                    
-                    <input type="number" id="taxa" step="0.01" required placeholder="0.5"                           
-                        class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                
-                </div>
-                
-                <div class="col-span-1">                    
-                    <label for="tipoTaxa" class="block text-sm font-medium text-secondary-light mb-1">Tipo de taxa</label>                    
-                    <select id="tipoTaxa" class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition appearance-none">                        
-                        <option value="mes">Ao mês</option>                        
-                        <option value="ano">Ao ano</option>                    
-                    </select>                
-                </div>                
-                <div class="col-span-1">                    
-                    <label for="periodo" class="block text-sm font-medium text-secondary-light mb-1">Período</label>                    
-                    <input type="number" id="periodo" required placeholder="10"                           
-                        class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                
-                </div>                
-                <div class="col-span-1">                    
-                    <label for="unidade" class="block text-sm font-medium text-secondary-light mb-1">Unidade do período</label>                    
-                    <select id="unidade" class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition appearance-none">                        
-                        <option value="meses">Meses</option>                        
-                        <option value="anos">Anos</option>                    
-                    </select>                
-                </div>
-                
-                <button type="submit" class="col-span-full py-3 mt-4 bg-primary-blue hover:bg-blue-600 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-[1.01] text-lg">                    
-                    Calcular Potencial de Crescimento 💡                
-                </button>            
-            </form>        
-        </div>
-        
-        <div class="bg-card-bg p-4 rounded-xl text-center text-secondary-light mb-8 border border-gray-700">            
-            <p class="font-semibold text-sm">Espaço para Anúncio AdSense - Bloco de Texto/Display (Simulação)</p>            
+            <nav class="hidden sm:block">                                
+                <a href="#tabelaRendimentoHeader" class="text-secondary-light hover:text-primary-blue transition duration-300 mx-3">Detalhes</a>                        
+            </nav>                
+        </div>        
+    </header>        
+    <div class="text-center py-16 bg-card-bg">                
+        <h1 class="text-5xl font-extrabold text-white mb-4 leading-tight">                        
+            Descubra o Poder dos <span class="text-primary-blue">Juros Compostos</span>                
+        </h1>                
+        <p class="text-xl text-secondary-light max-w-2xl mx-auto">                        
+            Veja a mágica acontecer: o seu capital trabalhando por você.                
+        </p>        
+    </div>        
+    <main class="max-w-6xl mx-auto p-4 md:p-8 mt-[-30px] relative z-10">                        
+        <div class="bg-card-bg p-6 md:p-10 rounded-xl shadow-2xl border border-primary-blue/50 mb-8">                        
+            <h2 class="text-3xl font-bold mb-6 text-primary-blue border-b border-card-bg pb-3">                                
+                Simulação de Investimento                        
+            </h2>                        
+            <form id="calcForm" class="grid grid-cols-1 md:grid-cols-3 gap-6">                                
+                <div class="col-span-1">                                        
+                    <label for="patrimonio" class="block text-sm font-medium text-secondary-light mb-1">Patrimônio atual (R$)</label>                                        
+                    <input type="text" id="patrimonio" required placeholder="0,00" oninput="formatCurrency(this)"                        
+                        class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                                
+                </div>                                
+                <div class="col-span-1">                                        
+                    <label for="aporte" class="block text-sm font-medium text-secondary-light mb-1">Aporte mensal (R$)</label>                                        
+                    <input type="text" id="aporte" required placeholder="0,00" oninput="formatCurrency(this)"                        
+                        class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                                
+                </div>                                
+                <div class="col-span-1">                                        
+                    <label for="taxa" class="block text-sm font-medium text-secondary-light mb-1">Taxa de juros (%)</label>                                        
+                    <input type="number" id="taxa" step="0.01" required placeholder="0.5"                                                   
+                        class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                                
+                </div>                                
+                <div class="col-span-1">                                        
+                    <label for="tipoTaxa" class="block text-sm font-medium text-secondary-light mb-1">Tipo de taxa</label>                                        
+                    <select id="tipoTaxa" class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition appearance-none">                                                
+                        <option value="mes">Ao mês</option>                                                
+                        <option value="ano">Ao ano</option>                                        
+                    </select>                                
+                </div>                                
+                <div class="col-span-1">                                        
+                    <label for="periodo" class="block text-sm font-medium text-secondary-light mb-1">Período</label>                                        
+                    <input type="number" id="periodo" required placeholder="10"                                                   
+                        class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">                                
+                </div>                                
+                <div class="col-span-1">                                        
+                    <label for="unidade" class="block text-sm font-medium text-secondary-light mb-1">Unidade do período</label>                                        
+                    <select id="unidade" class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition appearance-none">                                                
+                        <option value="meses">Meses</option>                                                
+                        <option value="anos">Anos</option>                                        
+                    </select>                                
+                </div>                                
+                <button type="submit" class="col-span-full py-3 mt-4 bg-primary-blue hover:bg-blue-600 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-[1.01] text-lg">                                        
+                    Calcular Potencial de Crescimento 💡                                
+                </button>                        
+            </form>                
         </div>                
         
-        <div id="resultados" class="hidden">                        
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">                
-                <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-primary-blue">                    
-                    <h3 class="text-lg font-semibold text-secondary-light mb-2">💰 Valor Investido</h3>                    
-                    <p id="valorInvestido" class="text-3xl font-bold text-primary-blue">R$ 0,00</p>                
-                </div>                
-                <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-green-500">                    
-                    <h3 class="text-lg font-semibold text-secondary-light mb-2">📈 Juros Ganhos</h3>                    
-                    <p id="jurosGanhos" class="text-3xl font-bold text-green-400">R$ 0,00</p>                
-                </div>                
-                <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-white">                    
-                    <h3 class="text-lg font-semibold text-secondary-light mb-2">🏆 Valor Total</h3>                    
-                    <p id="valorTotal" class="text-3xl font-bold text-white">R$ 0,00</p>                
-                </div>            
-            </div>
-            
-            <h2 class="text-3xl font-bold mt-10 mb-6 text-white border-b border-card-bg pb-3">                
-                Evolução do Patrimônio ao Longo do Tempo            
-            </h2>            
-            
-            <div class="bg-card-bg p-4 rounded-xl shadow-xl mb-8">                
-                <canvas id="grafico" height="280"></canvas> 
+        <div id="resultados" class="hidden">                                    
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">                                
+                <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-primary-blue">                                        
+                    <h3 class="text-lg font-semibold text-secondary-light mb-2">💰 Valor Investido</h3>                                        
+                    <p id="valorInvestido" class="text-3xl font-bold text-primary-blue">R$ 0,00</p>                                
+                </div>                                
+                <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-green-500">                                        
+                    <h3 class="text-lg font-semibold text-secondary-light mb-2">📈 Juros Ganhos</h3>                                        
+                    <p id="jurosGanhos" class="text-3xl font-bold text-green-400">R$ 0,00</p>                                
+                </div>                                
+                <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-white">                                        
+                    <h3 class="text-lg font-semibold text-secondary-light mb-2">🏆 Valor Total</h3>                                        
+                    <p id="valorTotal" class="text-3xl font-bold text-white">R$ 0,00</p>                                
+                </div>                        
             </div>                        
-            
-            <h2 id="tabelaRendimentoHeader" class="text-3xl font-bold mt-10 mb-6 text-white border-b border-card-bg pb-3">                
-                Detalhes do Rendimento Mês a Mês            
-            </h2>            
-            
-            <div class="overflow-x-auto mb-8">                
-                <table id="tabelaRendimento" class="w-full text-left rounded-lg overflow-hidden border border-card-bg">                    
-                    <thead class="bg-primary-blue text-white uppercase text-sm tracking-wider">                        
-                        <tr>                            
-                            <th class="p-3">Período</th>                            
-                            <th class="p-3 text-right">Saldo Anterior (R$)</th>                            
-                            <th class="p-3 text-right">Rendimento (R$)</th>                            
-                            <th class="p-3 text-right">Saldo Final (R$)</th>                        
-                        </tr>                    
-                    </thead>                    
-                    <tbody class="text-secondary-light/90 bg-card-bg divide-y divide-primary-blue/20">                    
-                    </tbody>                
-                </table>            
-            </div>        
+            <h2 class="text-3xl font-bold mt-10 mb-6 text-white border-b border-card-bg pb-3">                                
+                Evolução do Patrimônio ao Longo do Tempo                        
+            </h2>                                    
+            <div class="bg-card-bg p-4 rounded-xl shadow-xl mb-8">                                
+                <canvas id="grafico" height="280"></canvas>             
+            </div>                                                
+            <h2 id="tabelaRendimentoHeader" class="text-3xl font-bold mt-10 mb-6 text-white border-b border-card-bg pb-3">                                
+                Detalhes do Rendimento Mês a Mês                        
+            </h2>                                    
+            <div class="overflow-x-auto mb-8">                                
+                <table id="tabelaRendimento" class="w-full text-left rounded-lg overflow-hidden border border-card-bg">                                        
+                    <thead class="bg-primary-blue text-white uppercase text-sm tracking-wider">                                                
+                        <tr>                                                        
+                            <th class="p-3">Período</th>                                                        
+                            <th class="p-3 text-right">Saldo Anterior (R$)</th>                                                        
+                            <th class="p-3 text-right">Rendimento (R$)</th>                                                        
+                            <th class="p-3 text-right">Saldo Final (R$)</th>                                                
+                        </tr>                                        
+                    </thead>                                        
+                    <tbody class="text-secondary-light/90 bg-card-bg divide-y divide-primary-blue/20">                                        
+                    </tbody>                                
+                </table>                        
+            </div>                
         </div>
 
-        <!-- BLOCO DE TEXTO OTIMIZADO PARA SEO: Aumenta a relevância textual para o Google -->
-        <section class="mt-12 p-8 bg-card-bg rounded-xl shadow-2xl border border-primary-blue/50">
-            <h2 class="text-2xl font-bold mb-4 text-primary-blue">
-                O Poder Mágico dos Juros Compostos no seu Investimento
-            </h2>
-            <p class="text-secondary-light/80 mb-4 text-sm md:text-base">
-                Bem-vindo à <span class="font-bold text-white">Juros Turbo</span>, a sua principal ferramenta para simular e entender a **calculadora de juros compostos**. Diferente dos juros simples, o **juros composto** calcula o rendimento não só sobre o capital inicial, mas também sobre os juros acumulados nos períodos anteriores. Este efeito é conhecido como "juros sobre juros" e é o segredo para a construção de riqueza a longo prazo.
-            </p>
-            <p class="text-secondary-light/80 text-sm md:text-base">
-                Utilize nossa **calculadora de juros compostos** para planejar seu futuro. Insira seu aporte inicial, a taxa de juros e o período desejado. O **Juros Turbo** transformará números complexos em uma visualização clara através de gráficos e tabelas detalhadas, mostrando exatamente o quanto seu dinheiro pode crescer. Comece a simular hoje e veja a aceleração do seu patrimônio!
-            </p>
-        </section>
+        <section class="mt-12 p-8 bg-card-bg rounded-xl shadow-2xl border border-primary-blue/50">            
+            <h2 class="text-2xl font-bold mb-4 text-primary-blue">                
+                O Poder Mágico dos Juros Compostos no seu Investimento            
+            </h2>            
+            <p class="text-secondary-light/80 mb-4 text-sm md:text-base">                
+                Bem-vindo à <span class="font-bold text-white">Juros Turbo</span>, a sua principal ferramenta para simular e entender a **calculadora de juros compostos**. Diferente dos juros simples, o **juros composto** calcula o rendimento não só sobre o capital inicial, mas também sobre os juros acumulados nos períodos anteriores. Este efeito é conhecido como "juros sobre juros" e é o segredo para a construção de riqueza a longo prazo.            
+            </p>            
+            <p class="text-secondary-light/80 text-sm md:text-base">                
+                Utilize nossa **calculadora de juros compostos** para planejar seu futuro. Insira seu aporte inicial, a taxa de juros e o período desejado. O **Juros Turbo** transformará números complexos em uma visualização clara através de gráficos e tabelas detalhadas, mostrando exatamente o quanto seu dinheiro pode crescer. Comece a simular hoje e veja a aceleração do seu patrimônio!            
+            </p>        
+        </section>            
         
-    </main>
-    
-    <footer class="p-6 bg-dark-bg border-t border-card-bg text-center text-sm text-secondary-light">        
-        <p>&copy; 2025 Juros Turbo. Todos os direitos reservados. | Ferramenta Educacional.</p>    
-    </footer>
-    
-    <script>
-        // CORREÇÃO DO ERRO: DEFINIÇÃO DE VARIÁVEIS MOVIDA PARA O TOPO
-        const form = document.getElementById("calcForm");        
-        const ctx = document.getElementById("grafico");        
-        const resultadosDiv = document.getElementById("resultados");        
-        let chart;
-        
+        <div class="mt-8 mb-8 text-center bg-card-bg p-4 rounded-xl shadow-lg border border-primary-blue/50">
+            <p class="text-secondary-light/80 mb-2">Anúncio</p>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_ADSENSE_CLIENT_ID"
+                 data-ad-slot="YOUR_ADSENSE_SLOT_ID"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        </main>        
+    <footer class="p-6 bg-dark-bg border-t border-card-bg text-center text-sm text-secondary-light">                
+        <p>&copy; 2025 Juros Turbo. Todos os direitos reservados. | Ferramenta Educacional.</p>        
+    </footer>        
+    <script>        
+        // CORREÇÃO DO ERRO: DEFINIÇÃO DE VARIÁVEIS MOVIDA PARA O TOPO        
+        const form = document.getElementById("calcForm");                
+        const ctx = document.getElementById("grafico");                
+        const resultadosDiv = document.getElementById("resultados");                
+        let chart;                
         const formatarValor = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
-        // Desmascara o valor para cálculo (remove . e troca , por .)
-        const parseCurrency = (value) => {
-            if (!value) return 0;
-            // 1. Remove pontos de milhar
-            let cleanValue = value.replace(/\./g, '');
-            // 2. Troca a vírgula decimal pelo ponto decimal padrão do JS/Float
-            cleanValue = cleanValue.replace(',', '.');
-            return parseFloat(cleanValue) || 0;
-        };
         
-        // --- CALCULATOR LOGIC (AGORA PURAMENTE ESTÁTICA) ---
-        form.addEventListener("submit", function(e) { 
-            e.preventDefault();
+        // Desmascara o valor para cálculo (remove . e troca , por .)        
+        const parseCurrency = (value) => {            
+            if (!value) return 0;            
+            // 1. Remove pontos de milhar            
+            let cleanValue = value.replace(/\./g, '');            
+            // 2. Troca a vírgula decimal pelo ponto decimal padrão do JS/Float            
+            cleanValue = cleanValue.replace(',', '.');            
+            return parseFloat(cleanValue) || 0;        
+        };                
+        
+        // --- CALCULATOR LOGIC (AGORA PURAMENTE ESTÁTICA) ---        
+        form.addEventListener("submit", function(e) {             
+            e.preventDefault();                        
+            // Usando a nova função para pegar os valores desmascarados            
+            const patrimonio = parseCurrency(document.getElementById("patrimonio").value);                       
+            const aporte = parseCurrency(document.getElementById("aporte").value);                        
+            const taxaInformada = parseFloat(document.getElementById("taxa").value) / 100 || 0;                        
+            const tipoTaxa = document.getElementById("tipoTaxa").value;                        
+            let periodo = parseInt(document.getElementById("periodo").value) || 0;                        
+            const unidade = document.getElementById("unidade").value;                        
+            resultadosDiv.classList.remove('hidden');                        
             
-            // Usando a nova função para pegar os valores desmascarados
-            const patrimonio = parseCurrency(document.getElementById("patrimonio").value);           
-            const aporte = parseCurrency(document.getElementById("aporte").value);
+            // Rola a tela para a seção de resultados            
+            resultadosDiv.scrollIntoView({ behavior: 'smooth' });                         
             
-            const taxaInformada = parseFloat(document.getElementById("taxa").value) / 100 || 0;            
-            const tipoTaxa = document.getElementById("tipoTaxa").value;            
-            let periodo = parseInt(document.getElementById("periodo").value) || 0;            
-            const unidade = document.getElementById("unidade").value;
+            // Cálculo da taxa equivalente mensal            
+            const taxa = tipoTaxa === "ano" ? Math.pow(1 + taxaInformada, 1/12) - 1 : taxaInformada;                                    
             
-            resultadosDiv.classList.remove('hidden');
+            // Conversão do período para meses            
+            if (unidade === "anos") {                                
+                periodo = periodo * 12;                        
+            }                        
+            let saldo = patrimonio;                        
+            let totalInvestidoAcumulado = patrimonio;                                   
+            const meses = [];                        
+            const valoresTotal = [];                        
+            const valoresInvestido = [];                                    
+            const tabelaBody = document.querySelector("#tabelaRendimento tbody");                        
+            tabelaBody.innerHTML = "";                        
             
-            // Rola a tela para a seção de resultados
-            resultadosDiv.scrollIntoView({ behavior: 'smooth' }); 
+            for (let i = 1; i <= periodo; i++) {                                
+                const saldoAnterior = saldo;                                
+                const rendimento = saldo * taxa;                                
+                saldo += rendimento + aporte;                                                
+                totalInvestidoAcumulado += aporte;                                
+                meses.push(i);                                
+                valoresTotal.push(saldo.toFixed(2));                                
+                valoresInvestido.push(totalInvestidoAcumulado.toFixed(2));                                
+                const row = `<tr>                                        
+                    <td class="p-3 font-medium text-white">${i}</td>                                        
+                    <td class="p-3 text-right">${formatarValor(saldoAnterior)}</td>                                        
+                    <td class="p-3 text-right text-green-400">${formatarValor(rendimento)}</td>                                        
+                    <td class="p-3 text-right font-bold">${formatarValor(saldo)}</td>                                
+                </tr>`;                                
+                tabelaBody.insertAdjacentHTML("beforeend", row);                        
+            }                        
+            const totalAportes = aporte * periodo;                        
+            const totalInvestidoFinal = patrimonio + totalAportes;                       
+            const jurosGanhos = saldo - totalInvestidoFinal;                                                
+            document.getElementById("valorInvestido").textContent = formatarValor(totalInvestidoFinal);                        
+            document.getElementById("jurosGanhos").textContent = formatarValor(jurosGanhos);                        
+            document.getElementById("valorTotal").textContent = formatarValor(saldo);                        
             
-            // Cálculo da taxa equivalente mensal
-            const taxa = tipoTaxa === "ano" ? Math.pow(1 + taxaInformada, 1/12) - 1 : taxaInformada;            
-            
-            // Conversão do período para meses
-            if (unidade === "anos") {                
-                periodo = periodo * 12;            
-            }
-            
-            let saldo = patrimonio;            
-            let totalInvestidoAcumulado = patrimonio;                       
-            const meses = [];            
-            const valoresTotal = [];            
-            const valoresInvestido = [];                        
-            const tabelaBody = document.querySelector("#tabelaRendimento tbody");            
-            tabelaBody.innerHTML = "";
-            
-            for (let i = 1; i <= periodo; i++) {                
-                const saldoAnterior = saldo;                
-                const rendimento = saldo * taxa;                
-                saldo += rendimento + aporte;                                
-                totalInvestidoAcumulado += aporte;
-                
-                meses.push(i);                
-                valoresTotal.push(saldo.toFixed(2));                
-                valoresInvestido.push(totalInvestidoAcumulado.toFixed(2));
-                
-                const row = `<tr>                    
-                    <td class="p-3 font-medium text-white">${i}</td>                    
-                    <td class="p-3 text-right">${formatarValor(saldoAnterior)}</td>                    
-                    <td class="p-3 text-right text-green-400">${formatarValor(rendimento)}</td>                    
-                    <td class="p-3 text-right font-bold">${formatarValor(saldo)}</td>                
-                </tr>`;                
-                tabelaBody.insertAdjacentHTML("beforeend", row);            
-            }
-            
-            const totalAportes = aporte * periodo;            
-            const totalInvestidoFinal = patrimonio + totalAportes;           
-            const jurosGanhos = saldo - totalInvestidoFinal;                        
-            
-            document.getElementById("valorInvestido").textContent = formatarValor(totalInvestidoFinal);            
-            document.getElementById("jurosGanhos").textContent = formatarValor(jurosGanhos);            
-            document.getElementById("valorTotal").textContent = formatarValor(saldo);
-            
-            if (chart) chart.destroy();            
-            chart = new Chart(ctx, {                
-                type: "line",                
-                data: {                    
-                    labels: meses.map(m => `Mês ${m}`),                    
-                    datasets: [                        
-                        {                            
-                            label: "Patrimônio Total",                            
-                            data: valoresTotal,                            
-                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),
-                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),
-                            borderWidth: 2,                          
-                            tension: 0.1,                          
-                            pointRadius: 4,                          
-                            pointBackgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),
-                            pointBorderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),
-                            pointHoverRadius: 6,                            
-                            fill: false                        
-                        },                        
-                        {                            
-                            label: "Valor Investido",                            
-                            data: valoresInvestido,                            
-                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),
-                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),
-                            borderWidth: 2,                          
-                            tension: 0.1,                          
-                            pointRadius: 4,                          
-                            pointBackgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),
-                            pointBorderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),
-                            pointHoverRadius: 6,                            
-                            fill: false                        
-                        }                    
-                    ]                
-                },                
-                options: {                    
-                    responsive: true,                    
-                    maintainAspectRatio: false,                    
-                    aspectRatio: 2,                      
-                    scales: {                        
-                        x: {                            
-                            title: { display: false },                            
-                            grid: {                                
-                                color: "white",                                
-                                drawOnChartArea: true,                                
-                                drawTicks: false,                                
-                                borderDash: [2, 2]                            
-                            },                            
-                            ticks: {                                
-                                color: "white",                                
-                                font: { size: 16 },                                
-                                maxRotation: 0,                                
-                                minRotation: 0,                                
-                                autoSkipPadding: 20                            
-                            }                        
-                        },                        
-                        y: {                            
-                            title: { display: false },                            
-                            grid: {                                
-                                color: "white",                                
-                                drawOnChartArea: true,                                
-                                drawTicks: false,                                
-                                borderDash: [2, 2]                            
-                            },                            
-                            ticks: {                                
-                                color: "white",                                
-                                font: { size: 12 },                                
-                                callback: function(value) {                                    
-                                    if (value >= 1000) {                                        
-                                        return (value / 1000).toLocaleString('pt-BR') + 'k';                                    
-                                    }                                    
-                                    return value.toLocaleString('pt-BR');                                
-                                }                            
-                            }                        
-                        }                    
-                    },                  
-                    plugins: {                        
-                        legend: {                             
-                            position: 'top', 
-                            align: 'center', 
-                            labels: {                                 
-                                color: "white", 
-                                font: { size: 14, weight: 'bold' },                                 
-                                boxWidth: 15, 
-                                padding: 20 
-                            }                         
-                        },                        
-                        title: {                            
-                            display: true,                            
-                            text: 'Gráfico:', 
-                            color: "#fff", 
-                            font: { size: 20, weight: 'bold' },                            
-                            padding: { top: 10, bottom: 20 }                        
-                        },                        
-                        tooltip: {                            
-                            backgroundColor: "#000", 
-                            titleColor: "#fff",                            
-                            bodyColor: 'var(--color-chart-text)',                            
-                            borderColor: 'var(--color-chart-grid-light)',                            
-                            borderWidth: 1,                            
-                            cornerRadius: 4,                            
-                            padding: 10,                            
-                            callbacks: {                                
-                                label: function(context) {                                    
-                                    let label = context.dataset.label || '';                                    
-                                    if (label) {                                        
-                                        label += ': ';                                    
-                                    }                                    
-                                    if (context.parsed.y !== null) {                                        
-                                        label += formatarValor(context.parsed.y);                                    
-                                    }                                    
-                                    return label;                                
-                                }                            
-                            }                        
-                        }                    
-                    }                
-                }            
-            });        
-        });    
+            if (chart) chart.destroy();                        
+            chart = new Chart(ctx, {                                
+                type: "line",                                
+                data: {                                        
+                    labels: meses.map(m => `Mês ${m}`),                                        
+                    datasets: [                                                
+                        {                                                        
+                            label: "Patrimônio Total",                                                        
+                            data: valoresTotal,                                                        
+                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),                            
+                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),                            
+                            borderWidth: 2,                                                      
+                            tension: 0.1,                                                      
+                            pointRadius: 4,                                                      
+                            pointBackgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),                            
+                            pointBorderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),                            
+                            pointHoverRadius: 6,                                                        
+                            fill: false                                                
+                        },                                                
+                        {                                                        
+                            label: "Valor Investido",                                                        
+                            data: valoresInvestido,                                                        
+                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),                            
+                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),                            
+                            borderWidth: 2,                                                      
+                            tension: 0.1,                                                      
+                            pointRadius: 4,                                                      
+                            pointBackgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),                            
+                            pointBorderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),                            
+                            pointHoverRadius: 6,                                                        
+                            fill: false                                                
+                        }                                        
+                    ]                                
+                },                                
+                options: {                                        
+                    responsive: true,                                        
+                    maintainAspectRatio: false,                                        
+                    aspectRatio: 2,                                          
+                    scales: {                                                
+                        x: {                                                        
+                            title: { display: false },                                                        
+                            grid: {                                                                
+                                color: "white",                                                                
+                                drawOnChartArea: true,                                                                
+                                drawTicks: false,                                                                
+                                borderDash: [2, 2]                                                        
+                            },                                                        
+                            ticks: {                                                                
+                                color: "white",                                                                
+                                font: { size: 16 },                                                                
+                                maxRotation: 0,                                                                
+                                minRotation: 0,                                                                
+                                autoSkipPadding: 20                                                        
+                            }                                                
+                        },                                                
+                        y: {                                                        
+                            title: { display: false },                                                        
+                            grid: {                                                                
+                                color: "white",                                                                
+                                drawOnChartArea: true,                                                                
+                                drawTicks: false,                                                                
+                                borderDash: [2, 2]                                                        
+                            },                                                        
+                            ticks: {                                                                
+                                color: "white",                                                                
+                                font: { size: 12 },                                                                
+                                callback: function(value) {                                                                        
+                                    if (value >= 1000) {                                                                                
+                                        return (value / 1000).toLocaleString('pt-BR') + 'k';                                                                        
+                                    }                                                                        
+                                    return value.toLocaleString('pt-BR');                                                                
+                                }                                                        
+                            }                                                
+                        }                                        
+                    },                                      
+                    plugins: {                                                
+                        legend: {                                                         
+                            position: 'top',                             
+                            align: 'center',                             
+                            labels: {                                                                 
+                                color: "white",                                 
+                                font: { size: 14, weight: 'bold' },                                                                 
+                                boxWidth: 15,                                 
+                                padding: 20                             
+                            }                                                 
+                        },                                                
+                        title: {                                                        
+                            display: true,                                                        
+                            text: 'Gráfico:',                             
+                            color: "#fff",                             
+                            font: { size: 20, weight: 'bold' },                                                        
+                            padding: { top: 10, bottom: 20 }                                                
+                        },                                                
+                        tooltip: {                                                        
+                            backgroundColor: "#000",                             
+                            titleColor: "#fff",                                                        
+                            bodyColor: 'var(--color-chart-text)',                                                        
+                            borderColor: 'var(--color-chart-grid-light)',                                                        
+                            borderWidth: 1,                                                        
+                            cornerRadius: 4,                                                        
+                            padding: 10,                                                        
+                            callbacks: {                                                                
+                                label: function(context) {                                                                        
+                                    let label = context.dataset.label || '';                                                                        
+                                    if (label) {                                                                                
+                                        label += ': ';                                                                        
+                                    }                                                                        
+                                    if (context.parsed.y !== null) {                                                                                
+                                        label += formatarValor(context.parsed.y);                                                                        
+                                    }                                                                        
+                                    return label;                                                                
+                                }                                                        
+                            }                                                
+                        }                                        
+                    }                                
+                }                        
+            });                
+        });        
     </script>
 </body>
 </html>
-
-
+```http://googleusercontent.com/image_generation_content/0
