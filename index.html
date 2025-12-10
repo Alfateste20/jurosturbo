@@ -36,7 +36,7 @@
                 }    	
             }    	
         }
-
+        
         // --- FUNÇÃO DE MÁSCARA MONETÁRIA (MANTIDA) ---    	
         function formatCurrency(input) {    	
             let value = input.value.replace(/\D/g, ''); 
@@ -96,16 +96,46 @@
         Chart.defaults.font.family = 'Poppins, sans-serif'; 
         Chart.defaults.font.size = 13; 
     </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "O que são Juros Compostos e como a calculadora funciona?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Juros Compostos são juros calculados sobre o capital inicial mais os juros acumulados, criando o efeito 'juros sobre juros'. Nossa calculadora simula este crescimento exponencial, permitindo inserir capital inicial, aportes mensais, taxa de juros e o período."
+        }
+      }, {
+        "@type": "Question",
+        "name": "A calculadora de Juros Compostos considera a inflação?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sim. A Juros Turbo permite que você insira uma taxa de inflação anual. O resultado 'Valor Total Real' mostra o poder de compra do seu dinheiro no futuro, descontando a inflação projetada, oferecendo uma visão mais realista do seu investimento."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Qual a diferença entre Juros Nominais e Juros Reais?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Juros Nominais são os valores que você vê na sua conta (o crescimento bruto). Juros Reais é o retorno descontado da inflação, refletindo o ganho real no poder de compra do seu dinheiro. Nossa calculadora mostra ambos."
+        }
+      }]
+    }
+    </script>
 </head>
 <body>
     <header class="p-4 bg-dark-bg border-b border-card-bg shadow-lg">    	
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center">    	
-            <a href="#" class="text-2xl font-bold text-primary-blue mb-4 sm:mb-0">    	
+            <a href="index.html" class="text-2xl font-bold text-primary-blue mb-4 sm:mb-0">    	
                 Juros <span class="text-white">Turbo</span>    	
             </a>    	
             
             <nav class="hidden sm:block">    	
                 <a href="#conteudo-educacional" class="text-secondary-light hover:text-primary-blue transition duration-300 mx-3">Aprenda</a>
+                <a href="#faq" class="text-secondary-light hover:text-primary-blue transition duration-300 mx-3">FAQ</a>
                 <a href="#tabelaRendimentoHeader" class="text-secondary-light hover:text-primary-blue transition duration-300 mx-3">Detalhes</a>    	
             </nav>    	
         </div>    
@@ -139,6 +169,12 @@
                     <input type="number" id="taxa" step="0.01" required placeholder="0.5"    	
                         class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">    	
                 </div>    	
+
+                <div class="col-span-1">    	
+                    <label for="inflacao" class="block text-sm font-medium text-secondary-light mb-1">Inflação anual (%)</label>    	
+                    <input type="number" id="inflacao" step="0.01" placeholder="3.0" value="0.00"    	
+                        class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition">    	
+                </div>
                 <div class="col-span-1">    	
                     <label for="tipoTaxa" class="block text-sm font-medium text-secondary-light mb-1">Tipo de taxa</label>    	
                     <select id="tipoTaxa" class="w-full p-3 rounded-lg border border-primary-blue/30 bg-dark-bg text-white focus:ring-primary-blue focus:border-primary-blue transition appearance-none">    	
@@ -157,7 +193,7 @@
                         <option value="meses">Meses</option>    	
                         <option value="anos">Anos</option>    	
                     </select>    	
-                </div>    	
+                </div> 
                 <button type="submit" class="col-span-full py-3 mt-4 bg-primary-blue hover:bg-blue-600 text-white font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-[1.01] text-lg">    	
                     Calcular Potencial de Crescimento 💡    	
                 </button>    	
@@ -165,26 +201,32 @@
         </div>    	
         
         <div id="resultados" class="hidden">    	
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">    	
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">    	
                 <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-primary-blue">    	
                     <h3 class="text-lg font-semibold text-secondary-light mb-2">💰 Valor Investido</h3>    	
                     <p id="valorInvestido" class="text-3xl font-bold text-primary-blue">R$ 0,00</p>    	
                 </div>    	
                 <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-green-500">    	
-                    <h3 class="text-lg font-semibold text-secondary-light mb-2">📈 Juros Ganhos</h3>    	
+                    <h3 class="text-lg font-semibold text-secondary-light mb-2">📈 Juros Ganhos (Nominal)</h3>    	
                     <p id="jurosGanhos" class="text-3xl font-bold text-green-400">R$ 0,00</p>    	
                 </div>    	
                 <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-white">    	
-                    <h3 class="text-lg font-semibold text-secondary-light mb-2">🏆 Valor Total</h3>    	
+                    <h3 class="text-lg font-semibold text-secondary-light mb-2">🏆 Valor Total (Nominal)</h3>    	
                     <p id="valorTotal" class="text-3xl font-bold text-white">R$ 0,00</p>    	
-                </div>    	
+                </div>
+                <div class="card bg-card-bg p-6 rounded-xl shadow-xl text-center border-t-4 border-yellow-500">    	
+                    <h3 class="text-lg font-semibold text-secondary-light mb-2">💎 Valor Total Real (Poder de Compra)</h3>    	
+                    <p id="valorTotalReal" class="text-3xl font-bold text-yellow-400">R$ 0,00</p>    	
+                </div>
             </div>    	
+            
             <h2 class="text-3xl font-bold mt-10 mb-6 text-white border-b border-card-bg pb-3">    	
                 Evolução do Patrimônio ao Longo do Tempo
             </h2>    	
             <div class="bg-card-bg p-4 rounded-xl shadow-xl mb-8">    	
                 <canvas id="grafico" height="280"></canvas>    
             </div>    	
+            
             <h2 id="tabelaRendimentoHeader" class="text-3xl font-bold mt-10 mb-6 text-white border-b border-card-bg pb-3">    	
                 Detalhes do Rendimento Mês a Mês
             </h2>    	
@@ -252,6 +294,41 @@
             </p>
         </section>
         
+        <section id="faq" class="mt-8 p-8 bg-card-bg rounded-xl shadow-2xl border border-primary-blue/50">
+            <h2 class="text-2xl font-bold mb-6 text-primary-blue border-b border-primary-blue/20 pb-2">
+                Perguntas Frequentes sobre Juros Compostos
+            </h2>
+            
+            <div class="space-y-4">
+                <details class="p-4 rounded-lg bg-dark-bg/50">
+                    <summary class="font-semibold text-white cursor-pointer hover:text-primary-blue transition duration-200">
+                        O que são Juros Compostos e como a calculadora funciona?
+                    </summary>
+                    <p class="mt-2 text-secondary-light/80 text-sm md:text-base">
+                        Juros Compostos são juros calculados sobre o capital inicial mais os juros acumulados, criando o efeito 'juros sobre juros'. Nossa calculadora simula este crescimento exponencial, permitindo inserir capital inicial, aportes mensais, taxa de juros e o período.
+                    </p>
+                </details>
+
+                <details class="p-4 rounded-lg bg-dark-bg/50">
+                    <summary class="font-semibold text-white cursor-pointer hover:text-primary-blue transition duration-200">
+                        A calculadora de Juros Compostos considera a inflação?
+                    </summary>
+                    <p class="mt-2 text-secondary-light/80 text-sm md:text-base">
+                        Sim. A Juros Turbo permite que você insira uma taxa de inflação anual. O resultado **'Valor Total Real'** mostra o poder de compra do seu dinheiro no futuro, descontando a inflação projetada, oferecendo uma visão mais realista do seu investimento.
+                    </p>
+                </details>
+
+                <details class="p-4 rounded-lg bg-dark-bg/50">
+                    <summary class="font-semibold text-white cursor-pointer hover:text-primary-blue transition duration-200">
+                        Qual a diferença entre Juros Nominais e Juros Reais?
+                    </summary>
+                    <p class="mt-2 text-secondary-light/80 text-sm md:text-base">
+                        **Juros Nominais** são os valores que você vê na sua conta (o crescimento bruto). **Juros Reais** é o retorno descontado da inflação, refletindo o ganho real no poder de compra do seu dinheiro. Nossa calculadora mostra ambos para que você tome decisões informadas.
+                    </p>
+                </details>
+            </div>
+        </section>
+
         <div class="mt-8 mb-8 text-center bg-card-bg p-4 rounded-xl shadow-lg border border-gray-700">
             <p class="text-secondary-light/80 mb-3 text-sm">Anúncio Display Responsivo</p>
             <ins class="adsbygoogle"
@@ -276,7 +353,6 @@
     </footer>    	
     
     <script>    	
-        // CORREÇÃO DO ERRO: DEFINIÇÃO DE VARIÁVEIS MOVIDA PARA O TOPO    	
         const form = document.getElementById("calcForm");    	
         const ctx = document.getElementById("grafico");    	
         const resultadosDiv = document.getElementById("resultados");    	
@@ -293,29 +369,35 @@
             return parseFloat(cleanValue) || 0;    	
         };    	
         
-        // --- CALCULATOR LOGIC ---    	
+        // --- CALCULATOR LOGIC (COM INFLAÇÃO) ---    	
         form.addEventListener("submit", function(e) {    	
             e.preventDefault();    	
-            // Usando a nova função para pegar os valores desmascarados    	
+            
+            // 1. CAPTURA DE VARIÁVEIS
             const patrimonio = parseCurrency(document.getElementById("patrimonio").value);    	
             const aporte = parseCurrency(document.getElementById("aporte").value);    	
             const taxaInformada = parseFloat(document.getElementById("taxa").value) / 100 || 0;    	
+            const inflacaoInformada = parseFloat(document.getElementById("inflacao").value) / 100 || 0; // NOVO
             const tipoTaxa = document.getElementById("tipoTaxa").value;    	
             let periodo = parseInt(document.getElementById("periodo").value) || 0;    	
             const unidade = document.getElementById("unidade").value;    	
-            resultadosDiv.classList.remove('hidden');    	
             
-            // Rola a tela para a seção de resultados    	
+            resultadosDiv.classList.remove('hidden');    	
             resultadosDiv.scrollIntoView({ behavior: 'smooth' });    	
             
-            // Cálculo da taxa equivalente mensal    	
-            const taxa = tipoTaxa === "ano" ? Math.pow(1 + taxaInformada, 1/12) - 1 : taxaInformada;    	
+            // 2. CONVERSÃO DE TAXAS
+            // Taxa de juros mensal (i)
+            const taxaJurosMensal = tipoTaxa === "ano" ? Math.pow(1 + taxaInformada, 1/12) - 1 : taxaInformada;    	
+            // Taxa de inflação mensal (inf) - usando a fórmula da taxa equivalente
+            const taxaInflacaoMensal = Math.pow(1 + inflacaoInformada, 1/12) - 1; // NOVO
             
             // Conversão do período para meses    	
             if (unidade === "anos") {    	
                 periodo = periodo * 12;    	
             }    	
-            let saldo = patrimonio;    	
+            
+            // 3. VARIÁVEIS DE CÁLCULO
+            let saldoNominal = patrimonio;    	
             let totalInvestidoAcumulado = patrimonio;    	
             const meses = [];    	
             const valoresTotal = [];    	
@@ -323,98 +405,113 @@
             const tabelaBody = document.querySelector("#tabelaRendimento tbody");    	
             tabelaBody.innerHTML = "";    	
             
+            // 4. LOOP DE CÁLCULO
             for (let i = 1; i <= periodo; i++) {    	
-                const saldoAnterior = saldo;    	
-                const rendimento = saldo * taxa;    	
-                saldo += rendimento + aporte;    	
+                const saldoAnterior = saldoNominal;    	
+                // Cálculo do rendimento com a taxa de juros (nominal)
+                const rendimento = saldoNominal * taxaJurosMensal;    	
+                saldoNominal += rendimento + aporte;    	
                 totalInvestidoAcumulado += aporte;    	
+                
+                // Adiciona dados para o gráfico e a tabela
                 meses.push(i);    	
-                valoresTotal.push(saldo.toFixed(2));    	
+                valoresTotal.push(saldoNominal.toFixed(2));    	
                 valoresInvestido.push(totalInvestidoAcumulado.toFixed(2));    	
+                
                 const row = `<tr>    	
                     <td class="p-3 font-medium text-white">${i}</td>    	
                     <td class="p-3 text-right">${formatarValor(saldoAnterior)}</td>    	
                     <td class="p-3 text-right text-green-400">${formatarValor(rendimento)}</td>    	
-                    <td class="p-3 text-right font-bold">${formatarValor(saldo)}</td>    	
+                    <td class="p-3 text-right font-bold">${formatarValor(saldoNominal)}</td>    	
                 </tr>`;    	
                 tabelaBody.insertAdjacentHTML("beforeend", row);    	
             }    	
+            
+            // 5. CÁLCULOS FINAIS
             const totalAportes = aporte * periodo;    	
             const totalInvestidoFinal = patrimonio + totalAportes;    	
-            const jurosGanhos = saldo - totalInvestidoFinal;    	
+            const jurosGanhos = saldoNominal - totalInvestidoFinal;    	
+            
+            // Cálculo do valor real final (ajustado pela inflação)
+            // Fórmula: Valor Real = Valor Nominal / (1 + Inflação Mensal)^n
+            const saldoTotalReal = saldoNominal / Math.pow(1 + taxaInflacaoMensal, periodo); // NOVO
+            
+            // 6. EXIBIÇÃO DE RESULTADOS
             document.getElementById("valorInvestido").textContent = formatarValor(totalInvestidoFinal);    	
             document.getElementById("jurosGanhos").textContent = formatarValor(jurosGanhos);    	
-            document.getElementById("valorTotal").textContent = formatarValor(saldo);    	
+            document.getElementById("valorTotal").textContent = formatarValor(saldoNominal);    	
+            document.getElementById("valorTotalReal").textContent = formatarValor(saldoTotalReal); // NOVO
             
+            // 7. ATUALIZAÇÃO DO GRÁFICO (MANTIDA)
             if (chart) chart.destroy();    	
             chart = new Chart(ctx, {    	
-                type: "line",    	
-                data: {    	
-                    labels: meses.map(m => `Mês ${m}`),    	
-                    datasets: [    	
-                        {    	
-                            label: "Patrimônio Total",    	
-                            data: valoresTotal,    	
-                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),    	
-                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),    	
-                            borderWidth: 2,    	
-                            tension: 0.1,    	
-                            pointRadius: 4,    	
-                            pointBackgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),    	
-                            pointBorderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),    	
-                            pointHoverRadius: 6,    	
-                            fill: false    	
-                        },    	
-                        {    	
-                            label: "Valor Investido",    	
-                            data: valoresInvestido,    	
-                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),    	
-                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),    	
-                            borderWidth: 2,    	
-                            tension: 0.1,    	
-                            pointRadius: 4,    	
-                            pointBackgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),    	
-                            pointBorderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),    	
-                            pointHoverRadius: 6,    	
-                            fill: false    	
-                        }    	
-                    ]    	
-                },    	
-                options: {    	
-                    responsive: true,    	
-                    maintainAspectRatio: false,    	
-                    aspectRatio: 2,    	
-                    scales: {    	
-                        x: {    	
-                            title: { display: false },    	
-                            grid: {    	
-                                color: "white",    	
-                                drawOnChartArea: true,    	
-                                drawTicks: false,    	
-                                borderDash: [2, 2]    	
-                            },    	
-                            ticks: {    	
-                                color: "white",    	
-                                font: { size: 12 },    	
-                                maxRotation: 0,    	
-                                minRotation: 0,    	
-                                autoSkipPadding: 20    	
-                            }    	
-                        },    	
-                        y: {    	
-                            title: { display: false },    	
-                            grid: {    	
-                                color: "white",    	
-                                drawOnChartArea: true,    	
-                                drawTicks: false,    	
-                                borderDash: [2, 2]    	
-                            },    	
-                            ticks: {    	
-                                color: "white",    	
-                                font: { size: 12 },    	
-                                callback: function(value) {    	
-                                    if (value >= 1000) {    	
-                                        return (value / 1000).toLocaleString('pt-BR') + 'k';    	
+                type: "line",
+                data: {
+                    labels: meses.map(m => `Mês ${m}`),
+                    datasets: [
+                        {
+                            label: "Patrimônio Total",
+                            data: valoresTotal,
+                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),
+                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),
+                            borderWidth: 2,
+                            tension: 0.1,
+                            pointRadius: 4,
+                            pointBackgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),
+                            pointBorderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-total-line').trim(),
+                            pointHoverRadius: 6,
+                            fill: false
+                        },
+                        {
+                            label: "Valor Investido",
+                            data: valoresInvestido,
+                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),
+                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),
+                            borderWidth: 2,
+                            tension: 0.1,
+                            pointRadius: 4,
+                            pointBackgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),
+                            pointBorderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-investido-line').trim(),
+                            pointHoverRadius: 6,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    aspectRatio: 2,
+                    scales: {
+                        x: {
+                            title: { display: false },
+                            grid: {
+                                color: "white",
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [2, 2]
+                            },
+                            ticks: {
+                                color: "white",
+                                font: { size: 12 },
+                                maxRotation: 0,
+                                minRotation: 0,
+                                autoSkipPadding: 20
+                            }
+                        },
+                        y: {
+                            title: { display: false },
+                            grid: {
+                                color: "white",
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [2, 2]
+                            },
+                            ticks: {
+                                color: "white",
+                                font: { size: 12 },
+                                callback: function(value) {
+                                    if (value >= 1000) {
+                                        return (value / 1000).toLocaleString('pt-BR') + 'k';
                                     }
                                     return value.toLocaleString('pt-BR');
                                 }
@@ -424,7 +521,7 @@
                     plugins: {
                         legend: {
                             labels: {
-                                color: 'white' // Cor do texto da legenda
+                                color: 'white' 
                             }
                         }
                     }
